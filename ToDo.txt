@@ -1,0 +1,10 @@
+
+Katmanlý mimariyle oluþturuldu : Entities, DataAccess, Business, Console, Core katmanlarý
+
+Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum 
+
+Core Katmaný oluþturup evrensel kodlarýmýzý yazdým: 
+    1- EntityFramework kullanarak "EfEntityRepositoryBase" classý oluþturup Generic Constraintlerini belirttim
+    2- IEntity, IDto, IEntityRepository, EfEntityRepositoryBase dosyalarý oluþturuldu.
+    3- Car, Brand, Color sýnýflarýnýz için tüm CRUD operasyonlarýný gerçekleþtirdim
+    
