@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -16,37 +19,46 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-
-        public void Add(Brand brand)
+  
+        public IDataResult<List<Brand>> GetAll()
         {
-            if (brand.BrandName.Length >= 2 )
+            //Hergün saat 22:00 ile 23:00 arası sistem kapalı olsun.Arabalar listelenemesin
+
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.CarsListed);          
+        }
+
+        public IDataResult<Brand> GetById(int brandId)
+        {
+            return new SuccessDataResult<Brand>( _brandDal.Get(b=>b.BrandId == brandId));
+        }
+
+        public IResult Add(Brand brand)
+        {
+            if (brand.BrandName.Length >= 2)
             {
                 _brandDal.Add(brand);
+                return new SuccessResult(Messages.BrandAdded);
             }
             else
             {
-                throw new Exception("Araba markasının ismi 2 karakterden fazla olmalıdır ");
+                return new ErrorResult(Messages.BrandNameInvalid);
             }
         }
 
-        public List<Brand> GetAll()
-        {
-            return _brandDal.GetAll();
-        }
-
-        public Brand GetById(int brandId)
-        {
-            return _brandDal.Get(b=>b.BrandId == brandId);
-        }
-
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
+            return new SuccessDataResult<Brand>(Messages.BrandUpdated);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
+            return new SuccessDataResult<Brand>(Messages.BrandDeleted);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.DTOs;
@@ -19,57 +21,70 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();    //ICarDal'daki GetAll()'ı çağırır
-        }
+            //Hergün saat 22:00 ile 23:00 arası sistem kapalı olsun.Arabalar listelenemesin
 
-        public List<Car> GetByBrandId(int brandid)    //filtreleme //Marka id si verilen aynı marka arabaları getirir 
-        {
-            return _carDal.GetAll(x => x.BrandId == brandid);
-        }
-
-        public List<Car> GetByColorId(int colorid)
-        {
-            return _carDal.GetAll(x => x.ColorId == colorid);
-        }
-
-
-        public void Add(Car car)
-        {
-            if (car.CarName.Length <= 2 && car.DailyPrice < 0)
+            if(DateTime.Now.Hour==22)
             {
-                throw new Exception("Araba ismi 2 karakterden az olamaz!");
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);    //ICarDal'daki GetAll()'ı çağırır
+        }
+        public IDataResult<Car> GetById(int carId)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId),Messages.CarDetail);
+        }
+
+        public IDataResult<List<Car>> GetByBrandId(int brandId)    //filtreleme //Marka id si verilen aynı marka arabaları getirir 
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.BrandId == brandId));
+        }
+
+        public IDataResult<List<Car>> GetByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.ColorId == colorId));
+        }
+
+
+        public IResult Add(Car car)
+        {
+            if (car.CarName.Length <= 2 )
+            {
+               return new ErrorResult(Messages.CarNameInvalid);
             }
             else
             {
                 _carDal.Add(car);
+                return new SuccessResult(Messages.CarAdded);
             }
-
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             if (car.UnitsInStock > 1)
             {
                 _carDal.Update(car);
+               return new SuccessResult(Messages.CarUpdated);
             }
             else
             {
-                throw new Exception("Araba stokda 1 den fazla varsa güncellenebilir");
+                return new ErrorResult(Messages.CarUpdateConstraint);
             }
-
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             _carDal.Delete(car);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails(),"Arabalar;Renk ve Marka isimleriyle birlikte listelendi");
         }
+
+        
     }
 
 }
