@@ -14,3 +14,25 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
   Core katmanına Utilities klasörü altına Results klasörü açtım
   Daha önce geliştirdiğiniz tüm Business sınıflarını bu yapıya göre refactor (kodu iyileştirme) yaptım
     
+-------------------------------------------
+
+1)Kullanıcılar tablosu eklendi.
+     Users-->Id,FirstName,LastName,Email,Password
+  Müşteriler tablosu eklendi. 
+     Customers-->UserId,CompanyName
+  *****Kullanıcılar ve müşteriler ilişkilidir.
+   Arabanın kiralanma bilgisini tutan tablo eklendi. 
+      Rentals-->Id, CarId, CustomerId, RentDate(Kiralama Tarihi), ReturnDate(Teslim Tarihi). Araba teslim edilmemişse ReturnDate null'dır.
+
+2)Bunların entity'leri oluşturdum.
+3)CRUD operasyonlarını yazıldı.
+4)Yeni müşteriler ekledim.
+5)Arabayı kiralama imkanını kodladım. Rental-->Add
+  Arabanın kiralanabilmesi için arabanın teslim edilmesi gerekmektedir.
+
+ 
+
+
+ 
+
+       

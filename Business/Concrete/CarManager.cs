@@ -36,7 +36,8 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId),Messages.CarDetail);
         }
 
-        public IDataResult<List<Car>> GetByBrandId(int brandId)    //filtreleme //Marka id si verilen aynı marka arabaları getirir 
+        //filtreleme //Marka id si verilen aynı marka arabaları getirir 
+        public IDataResult<List<Car>> GetByBrandId(int brandId)  
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.BrandId == brandId));
         }
@@ -45,7 +46,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.ColorId == colorId));
         }
-
 
         public IResult Add(Car car)
         {

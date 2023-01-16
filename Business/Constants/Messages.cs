@@ -8,7 +8,7 @@ namespace Business.Constants
 {
     public static class Messages
     {
-        public static string CarsListed = "Araçlar listelendi";
+        public static string CarsListed = "Araçlar listelendi"; 
         public static string CarAdded = "Araba eklendi";
         public static string CarDetail = "Arabanın detay bilgilerini getirdi";
         public static string CarNameInvalid = "Araba ismi geçersiz";
@@ -29,5 +29,27 @@ namespace Business.Constants
         public static string BrandNameInvalid = "Marka ismi geçersiz";
         public static string BrandUpdated = "Marka bilgileri güncellendi";
         public static string BrandDeleted = "Marka silindi";
+
+        public static string CustomersListed = "Müşteriler listelendi";
+        public static string CustomerDetail = "Arabanın detay bilgilerini getirdi";
+        public static string CustomerAdded = "Müşteri eklendi";   
+        public static string CustomerUpdated = "Müşteri bilgileri güncellendi";      
+        public static string CustomerDeleted = "Müşteri sistemden silindi";
+
+        public static string UsersListed = "Kullanıcılar listelendi";
+        public static string UserDetail = "Kullanıcının detay bilgilerini getirdi";
+        public static string UserWithCustomerListed = "Kullanıcılarla birlikte Müşteri bilgisinide getirdi";
+        public static string UserAdded = "Kullanıcı eklendi";
+        public static string UserUpdated = "Kullanıcı bilgileri güncellendi";
+        public static string UserDeleted = "Kullanıcı sistemden silindi";
+
+        public static string RentalsListed = "Kiralanan araçlar listelendi";
+        public static string RentalDetail = "Kiralanan aracın detay bilgilerini getirdi";
+        public static string RentalWithCustomerListed = "Kiralanan araçlarla birlikte Müşteri bilgisinide getirdi";
+        public static string RentalNotDelivered = "Araç şuan kiralanamaz.Elimizde mevcut değil!"; 
+        public static string RentalAdded = "Araba başarılı bir şekilde kiralandı";
+        public static string RentalUpdated = "Kiralanan aracın bilgileri güncellendi";
+        public static string RentalDeleted = "Kiralanan araç sistemden silindi";
+
     }
 }
