@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.Entityframework;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.DTOs;
@@ -32,7 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (DbRentACarContext context = new DbRentACarContext())
             {
-                var result = from u in context.Users
+                var result = (from u in context.Users
                              join c in context.Customers on u.UserId equals c.UserId
                              where u.Email == email
                              select new UserDetailDto
@@ -41,8 +42,14 @@ namespace DataAccess.Concrete.EntityFramework
                                  UserLastName = u.LastName,
                                  Email = u.Email,
                                  CompanyName = c.CompanyName
-                             };
-                return result.FirstOrDefault();
+                             }).FirstOrDefault();
+
+                if (result != null)
+                {
+                    return result;
+                }
+                return null;
+
             }
         }
     }

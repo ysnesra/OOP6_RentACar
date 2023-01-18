@@ -22,18 +22,6 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public IResult Add(User user)
-        {
-            _userDal.Add(user);
-            return new SuccessResult(Messages.UserAdded);
-        }
-
-        public IResult Delete(User user)
-        {
-            _userDal.Delete(user);
-            return new SuccessResult(Messages.UserDeleted);
-        }
-
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
@@ -44,14 +32,36 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == userId), Messages.UserDetail);
         }
 
+        public IDataResult<UserDetailDto> GetUserDetailsByEmail(string email)
+        {    
+            if(email == null)
+            {
+                return new ErrorDataResult<UserDetailDto>(Messages.UserEmailInvalid);
+            }
+            var result = _userDal.GetUserDetailsByEmail(email);
+            if(result== null)
+            {
+                return new ErrorDataResult<UserDetailDto>(Messages.UserEmailInvalid );
+
+            }
+            return new SuccessDataResult<UserDetailDto>(_userDal.GetUserDetailsByEmail(email));
+        }
+
         public IDataResult<List<UserDetailDto>> GetUserDetails()
         {
             return new SuccessDataResult<List<UserDetailDto>>(_userDal.GetUserDetails(), Messages.UserWithCustomerListed);
         }
 
-        public IDataResult<UserDetailDto> GetUserDetailsByEmail(string email)
+        public IResult Add(User user)
         {
-            return new SuccessDataResult<UserDetailDto>(_userDal.GetUserDetailsByEmail(email));
+            _userDal.Add(user);
+            return new SuccessResult(Messages.UserAdded);
+        }
+
+        public IResult Delete(User user)
+        {
+            _userDal.Delete(user);
+            return new SuccessResult(Messages.UserDeleted);
         }
 
         public IResult Update(User user)

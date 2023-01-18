@@ -16,7 +16,7 @@ namespace Core.Utilities.Results
         {
 
         }
-        public ErrorDataResult(string message) : base(default,false,message)  //data dönedermek istmes sadece mesaj verir
+        public ErrorDataResult(string message) : base(default,false,message)  //data döndermek isterse sadece mesaj verir
         {
 
         }

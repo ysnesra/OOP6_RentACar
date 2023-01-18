@@ -43,9 +43,6 @@ namespace ConsoleUI
 
         }
 
-       
-
-
         private static void GetAllMethod(CarManager carManager)
         {
             var result = carManager.GetAll();

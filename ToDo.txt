@@ -3,36 +3,37 @@ Katmanlý mimariyle oluþturuldu : Entities, DataAccess, Business, Console, Core k
 
 Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum 
 
-*Core Katmaný oluþturup evrensel kodlarýmýzý yazdým: 
+* Core Katmaný oluþturup evrensel kodlarýmýzý yazdým: 
     1- EntityFramework kullanarak "EfEntityRepositoryBase" classý oluþturup Generic Constraintlerini belirttim
     2- IEntity, IDto, IEntityRepository, EfEntityRepositoryBase dosyalarý oluþturuldu.
     3- Car, Brand, Color sýnýflarýnýz için tüm CRUD operasyonlarýný gerçekleþtirdim
 
 -----------------------------------------
 
-*Core katmanýnda Results yapýlandýrmasý yaptým.
+* Core katmanýnda Results yapýlandýrmasý yaptým.
   Core katmanýna Utilities klasörü altýna Results klasörü açtým
   Daha önce geliþtirdiðiniz tüm Business sýnýflarýný bu yapýya göre refactor (kodu iyileþtirme) yaptým
     
 -------------------------------------------
 
-1)Kullanýcýlar tablosu eklendi.
-     Users-->Id,FirstName,LastName,Email,Password
-  Müþteriler tablosu eklendi. 
-     Customers-->UserId,CompanyName
-  *****Kullanýcýlar ve müþteriler iliþkilidir.
-   Arabanýn kiralanma bilgisini tutan tablo eklendi. 
-      Rentals-->Id, CarId, CustomerId, RentDate(Kiralama Tarihi), ReturnDate(Teslim Tarihi). Araba teslim edilmemiþse ReturnDate null'dýr.
+* Kullanýcýlar, Müþteriler tablosu ve Arabanýn kiralanma bilgisini tutan tablo eklendi.
+**Kullanýcýlar ve müþteriler iliþkilidir. 
+  Users-->Id,FirstName,LastName,Email,Password   
+  Customers-->UserId,CompanyName            
+  Rentals-->Id, CarId, CustomerId, RentDate(Kiralama Tarihi), ReturnDate(Teslim Tarihi). Araba teslim edilmemiþse ReturnDate null'dýr.    
 
-2)Bunlarýn entity'leri oluþturdum.
-3)CRUD operasyonlarýný yazýldý.
-4)Yeni müþteriler ekledim.
-5)Arabayý kiralama imkanýný kodladým. Rental-->Add
-  Arabanýn kiralanabilmesi için arabanýn teslim edilmesi gerekmektedir.
+    1)Bunlarýn entity'lerini oluþturdum.
+    2)CRUD operasyonlarýný yazýldý.
+    3)Yeni müþteriler ekledim.
+    4)Arabayý kiralama imkanýný kodladým. Rental-->Add
+      Arabanýn kiralanabilmesi için arabanýn teslim edilmesi gerekmektedir.
 
- 
+-------------------------------------------
+* WebAPI
+    WebAPI katmanýný oluþturdum.
+    Business katmanýndaki tüm servislerin API karþýlýðýný yazýp Postman'de test ettim.
 
-
+-------------------------------------------
  
 
        

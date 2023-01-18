@@ -21,6 +21,16 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
+        public IDataResult<List<Customer>> GetAll()
+        {
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
+        }
+
+        public IDataResult<Customer> GetById(int customerId)
+        {
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == customerId), Messages.CustomerDetail);
+        }
+
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
@@ -33,19 +43,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerDeleted);
         }
 
-        public IDataResult<List<Customer>> GetAll()
-        {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
-        }
-
-        public IDataResult<Customer> GetById(int customerId)
-        {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId==customerId),Messages.CustomerDetail);
-        }
-
         public IResult Update(Customer customer)
         {
-            _customerDal.Add(customer);
+            _customerDal.Update(customer);
             return new SuccessResult(Messages.CustomerUpdated);
         }
     }

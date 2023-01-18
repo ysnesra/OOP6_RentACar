@@ -39,6 +39,7 @@ namespace Business.Constants
         public static string UsersListed = "Kullanıcılar listelendi";
         public static string UserDetail = "Kullanıcının detay bilgilerini getirdi";
         public static string UserWithCustomerListed = "Kullanıcılarla birlikte Müşteri bilgisinide getirdi";
+        public static string UserEmailInvalid = "Mail adresi yanlış ";
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserUpdated = "Kullanıcı bilgileri güncellendi";
         public static string UserDeleted = "Kullanıcı sistemden silindi";

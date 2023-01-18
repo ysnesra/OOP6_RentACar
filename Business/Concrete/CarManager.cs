@@ -44,7 +44,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.ColorId == colorId));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), "Arabalar;Renk ve Marka isimleriyle birlikte listelendi");
         }
 
         public IResult Add(Car car)
@@ -78,13 +83,7 @@ namespace Business.Concrete
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
-
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
-        {
-            return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails(),"Arabalar;Renk ve Marka isimleriyle birlikte listelendi");
-        }
-
-        
+  
     }
 
 }
