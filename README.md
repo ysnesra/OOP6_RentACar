@@ -19,3 +19,9 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
   4- Core katmanına Utilities klasörü altına Results klasörü açtım
   
   5- Daha önce geliştirdiğiniz tüm Business sınıflarını bu yapıya göre refactor (kodu iyileştirme) yaptım
+  
+  -------------------------------------------
+* WebAPI
+    WebAPI katmanını oluşturdum.
+    Business katmanındaki tüm servislerin API karşılığını yazıp Postman'de test ettim.
+  
