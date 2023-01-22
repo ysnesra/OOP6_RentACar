@@ -34,6 +34,11 @@ Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum
     Business katmanýndaki tüm servislerin API karþýlýðýný yazýp Postman'de test ettim.
 
 -------------------------------------------
+* 
+    1.Autofac desteði ekledim.
+    2.FluentValidation desteði ekledim.
+    3.AOP (Aspect Oriented Programming) desteði ekledim.
+      ValidationAspect  
  
 
        

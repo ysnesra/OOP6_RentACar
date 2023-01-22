@@ -1,11 +1,16 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,30 +57,25 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), "Arabalar;Renk ve Marka isimleriyle birlikte listelendi");
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.CarName.Length <= 2 )
-            {
-               return new ErrorResult(Messages.CarNameInvalid);
-            }
-            else
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded);
-            }
-        }
+            //if (car.CarName.Length <= 2 )
+            //{
+            //   return new ErrorResult(Messages.CarNameInvalid);
+            //}
 
+            //ValidationTool.Validate(new CarValidator(), car);
+
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
+            
+        }
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
-        {
-            if (car.UnitsInStock > 1)
-            {
-                _carDal.Update(car);
-               return new SuccessResult(Messages.CarUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarUpdateConstraint);
-            }
+        {  
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);     
         }
 
         public IResult Delete(Car car)
