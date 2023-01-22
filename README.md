@@ -20,8 +20,17 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
   
   5- Daha önce geliştirdiğiniz tüm Business sınıflarını bu yapıya göre refactor (kodu iyileştirme) yaptım
   
-  -------------------------------------------
+-------------------------------------------
+
 * WebAPI
     WebAPI katmanını oluşturdum.
     Business katmanındaki tüm servislerin API karşılığını yazıp Postman'de test ettim.
+    
+-------------------------------------------
+* 
+    1.Autofac desteği ekledim.
+    2.FluentValidation desteği ekledim.
+    3.AOP (Aspect Oriented Programming) desteği ekledim.
+      ValidationAspect  
+ 
   
