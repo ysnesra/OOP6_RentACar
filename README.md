@@ -31,6 +31,23 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
     1.Autofac desteği ekledim.
     2.FluentValidation desteği ekledim.
     3.AOP (Aspect Oriented Programming) desteği ekledim.
-      ValidationAspect  
- 
+      ValidationAspect 
+      
+-------------------------------------------
+ *
+1-Araba resimlerini tuttan CarImages tablosu oluşturdum. (Id,CarId,ImagePath,Date) Bir arabanın birden fazla resmi olabilir.
+
+2-Api üzerinden arabaya resim ekleyecek sistemi yazdım.
+
+3-Resimler projem içerisinde wwwroot\Uploads\Images klasöründe tutulmaktatır. Resimler yüklendiği isimle değil, kendi verdiğimiz GUID ile dosyalanmaktadır.
+
+4-Resim silme, güncelleme yetenekleri ekledim.
+
+5-Bir arabanın en fazla 5 resmi olabilir.Kuralını BusinessRules clasında oluşturuduğum Run metotu ile kontrol edip Add ve Upload işlemlerini ona göre gerçkleştirdim.
+
+5-Resmin eklendiği tarih sistem tarafından atandı.(CarImageManager--> Add metotunda atama yapıldı)
+
+6-Bir arabaya ait resimleri listeleme imkanı oluşturdum. (GetByCarId metotu ile)
+
+7-Eğer bir arabaya ait resim yoksa, default bir resim gösterdim. Bu resim toplu arabaların olduğu bir resim. (Tek elemanlı liste) 
   
