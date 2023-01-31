@@ -68,6 +68,8 @@ namespace WebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles(); //wwwroot klasöründeki dosyalara doðrudan eriþim saðlar
+
             app.UseRouting();
 
             app.UseAuthorization();

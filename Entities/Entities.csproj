@@ -12,4 +12,8 @@
     <Folder Include="Abstract\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ServiceStack.Interfaces" Version="6.5.0" />
+  </ItemGroup>
+
 </Project>

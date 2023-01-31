@@ -36,9 +36,9 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);    //ICarDal'daki GetAll()'ı çağırır
         }
-        public IDataResult<Car> GetById(int carId)
+        public IDataResult<Car> GetByCarId(int carId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId),Messages.CarDetail);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId),Messages.CarDetail);
         }
 
         //filtreleme //Marka id si verilen aynı marka arabaları getirir 

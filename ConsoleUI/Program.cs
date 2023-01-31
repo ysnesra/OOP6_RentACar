@@ -103,7 +103,7 @@ namespace ConsoleUI
         }
         private static void UpdateMethod(CarManager carManager)
         {
-            carManager.Update(new Car { Id = 5002, BrandId = 2, ColorId = 4, CarName = "Skoda", DailyPrice = 120000, Description = "Skoda Dizel Arazi", ModelYear = 2022, UnitsInStock = 6 });
+            carManager.Update(new Car { CarId = 5002, BrandId = 2, ColorId = 4, CarName = "Skoda", DailyPrice = 120000, Description = "Skoda Dizel Arazi", ModelYear = 2022, UnitsInStock = 6 });
 
             foreach (var car in carManager.GetAll().Data)
             {
@@ -112,7 +112,7 @@ namespace ConsoleUI
         }
         private static void DeleteMethod(CarManager carManager)
         {
-            carManager.Delete(new Car { Id = 4002, BrandId = 2, ColorId = 4, CarName = "Skoda", DailyPrice = 120000, Description = "Skoda Dizel Arazi", ModelYear = 2022, UnitsInStock = 6 });
+            carManager.Delete(new Car { CarId = 4002, BrandId = 2, ColorId = 4, CarName = "Skoda", DailyPrice = 120000, Description = "Skoda Dizel Arazi", ModelYear = 2022, UnitsInStock = 6 });
 
             foreach (var car in carManager.GetAll().Data)
             {

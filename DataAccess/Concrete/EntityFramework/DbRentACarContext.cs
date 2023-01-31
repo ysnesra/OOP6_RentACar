@@ -1,5 +1,6 @@
 ﻿using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<User> Users { get; set; }
 
         public DbSet<Rental> Rentals { get; set; }
+
+        public DbSet<CarImage> CarImages { get; set; }
     }
 }
