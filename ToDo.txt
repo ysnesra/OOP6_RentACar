@@ -42,7 +42,7 @@ Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum
 
 -------------------------------------------
 *
-1-Araba resimlerini tuttan CarImages tablosu oluþturdum. (Id,CarId,ImagePath,Date) Bir arabanýn birden fazla resmi olabilir.
+1-Araba resimlerini tutan CarImages tablosu oluþturdum. (Id,CarId,ImagePath,Date) Bir arabanýn birden fazla resmi olabilir.
 
 2-Api üzerinden arabaya resim ekleyecek sistemi yazdým.
 
@@ -56,6 +56,64 @@ Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum
 
 6-Bir arabaya ait resimleri listeleme imkaný oluþturdum. (GetByCarId metotu ile)
 
-7-Eðer bir arabaya ait resim yoksa, default bir resim gösterdim. Bu resim toplu arabalarýn olduðu bir resim. (Tek elemanlý liste) 
+7-Eðer bir arabaya ait resim yoksa, default bir resim gösterdim. Bu resim toplu arabalarýn olduðu bir resim. (Tek elemanlý liste)
+
+-------------------------------------------
+* JWT
+
+1- UserTablosuna -> PasswordHash,PasswordSalt,Satatus kolonlarý eklendi
+   OperationClaims ve UserOperationClaims tablolarý eklendi
+   Bu tablolarýn entity classlarýný Core da oluþtururuz (Genel her projede kullanýlabilceði için)
+
+2- appsetting.json dosyasýna; Jwt nin configurationýný ekledim. Tokenoptions isminde cofigurasyon oluþturdum.
+
+3- Core katmanýnda ->Utilities ->Security klasörüne ->Encryption,Hashing ve Jwt klasörleri oluþturuldu.Ýçlerine Helper metotlar oluþturuldu. 
+
+  * HashingHelper metotunda -> Hash oluþturma ve doðrulama operasyonlarý gerçekleþir.
+
+  * SecurityKeyHelper -> appsetting de oluþturduðumuz securityKey deðerini byte[] array formatýna çevirmek için CreateSecurityKey metotu oluþturuldu
+  * SigningCredentialsHelper -> webApinin hangi anahtarý hangi þifreleme algoritmasýný kullanacaðýný söylediðimiz metot
+
+  * AccessToken classý -> eriþim anahtarý // Token ve Expiration deðiþkenlerini tanýmlandý
+  * ITokenHelper -> CreateToken metotu oluþturuldu (veritabanýndaki user ve claimlere göre JWT Token üretecek)
+  * JwtHelper -> Jwt'nin oluþturulduðu class 
+  * TokenOptions -> Configuration ile appsettings.json da okuduðu deðerleri atayacaðýmýz deðiþkenleri tanýmladýðým class
+
+ 4- Extensions metot tanýmladým.Claimler için
+   
+   * ClaimExtensions -> ClaimExtensions da tanýmladýðýmýz metotlarý JwtHelper.cs ýnda çaðýrýrýz
+   * ClaimPrincipalExtensions -> Jwt den gelen claimlerini okumak için .Net deki "ClaimsPrincipal" clasýna Claims ve ClaimRoles metotlarý eklendi
+   * ServiceCollectionExtensions ->
+
+5- Authorization (Yetkilnedirme) Aspectleri, Business katmanýna yazýldý
+   BusinessAspect klasörü -> Autofac klasörü -> SecuredOperation.cs clasý oluþturuldu
+
+   * SecuredOperation -> Aspect olarak verceðimiz yetkilendirme metotu
+   * ServicTool -> WebApi de oluuþturduðumuz Injectionlar gibi iliþkileri oluþturmamýzý saðlar.Aspecti Inject  edebilmek için oluþturdupumuz bir ExtensionsMetottur
+
+6- IUserService'e -> GetByEmail,GetClaims metotlarý eklendi
+   IAuthService, AuthManager, AuthController eklendi -> Kayýt olma - Login olma operasyonlarýný gerçekleþtirir
+
+7-  Business -> DependencyResolvers -> Autofac -> AutofacBusinessModule.cs classý içine eklemeler yapýldý. JwtHelper ve AuthManger için dependency baðlantýlarý yazýldý
+
+8- startup.cs'de sistemde authentication olarak hangi sistemin kullanýlacaðý belirtildi. JwtBearer Token kullanýlýr.
+
+   startup.cs'de  "app.UseAuthentication();" middleware'i eklendi. Authorization() den önce olacak þekilde; çünkü önce kimlik doðrulanýr sonra yetkilendirme verilir
+
+9- Dependency Resolution'ý Autofac üzerinden yapýyoruz. .net in kendi IoC Injectionýn devreye girmesi için;
+   startup.cs'ye 
+      "services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();" ve
+      "serciceTool.Create(services);"  kodlarý eklendi.
+
+   Ancak bu tanýmladýðým Injectioný bütün projelerde kullanýlabilir hale getirmek için Core'a taþýdým
+   *Core-> Utilities-> IoC-> ICoreModule.cs interfacei oluþturuldu -> Load() metodu tanýmlandý(genel baðýmlýlýklarý yükleyecek metotumuz)
+
+   *Core-> DependencyResolvers-> CoreModule.cs clasý oluþturuldu.IHttpContextAccessor ýnjection kodu buraya yazýldý
+
+   *Core-> Extensions-> ServiceCollectionExtensions.cs clasý oluþturuldu.Baðýmlýlýklarý yüklediðimiz "AddDependencyResolvers" metotu oluþturuldu.
+   startup.cs'de bu AddDependencyResolvers metotu çaðrýlýr ve parametre olrak CoreModule verilerek yüklenmesi saðlanýr.
+
+
+
 
 

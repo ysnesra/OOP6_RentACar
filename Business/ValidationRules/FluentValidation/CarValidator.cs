@@ -16,7 +16,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c=>c.CarName).MinimumLength(2);
             RuleFor(c=>c.DailyPrice).NotEmpty();
             RuleFor(c=>c.DailyPrice).GreaterThan(10000);
-            RuleFor(c=>c.CarName).Must(StartNameWithA).WithMessage("Araba isimleri A harfi ile başlamalı!");
+           // RuleFor(c=>c.CarName).Must(StartNameWithA).WithMessage("Araba isimleri A harfi ile başlamalı!");
         }
         //A harfi ile başlayan araba ismi gelirse true dönen metotumuz
         private bool StartNameWithA(string arg)  
