@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Core.Utilities.IoC
 {
     //Extensions Method
-    //ServiceTool classı ile WebApi de oluuşturduğumuz Injectionlar gibi ilişkileri oluşturmamızı sağlar
+    //ServiceTool classı ile WebApi de oluşturduğumuz Injectionlar gibi ilişkileri oluşturmamızı sağlar
     //herhangi bir Interfacein karşılığını (somut classını) alabiliriz
     public static class ServiceTool
     {     

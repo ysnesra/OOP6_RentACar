@@ -24,16 +24,16 @@ namespace Business.Concrete
         }
 
         //Kayıt(Üye olma) metotu Dto model ve password istiyoruz
-        public IDataResult<User> Register(UserRegisterDto userForRegisterDto, string password)
+        public IDataResult<User> Register(UserRegisterDto userRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
             //passwordHash ve passwordSalt'ı kullanarak out ettirip password'ü gönderip HAsh oluşturma
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
             {
-                Email = userForRegisterDto.Email,
-                FirstName = userForRegisterDto.FirstName,
-                LastName = userForRegisterDto.LastName,
+                Email = userRegisterDto.Email,
+                FirstName = userRegisterDto.FirstName,
+                LastName = userRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Status = true
@@ -42,15 +42,15 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(user, "Kayıt oldu");
         }
 
-        public IDataResult<User> Login(UserLoginDto userForLoginDto)
+        public IDataResult<User> Login(UserLoginDto userLoginDto)
         {
-            var userToCheck = _userService.GetByEmail(userForLoginDto.Email).Data;
+            var userToCheck = _userService.GetByEmail(userLoginDto.Email).Data;
             if (userToCheck == null)
             {
                 return new ErrorDataResult<User>("Kullanıcı bulunamadı");
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
+            if (!HashingHelper.VerifyPasswordHash(userLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>("Parola hatası");
             }

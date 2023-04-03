@@ -21,6 +21,9 @@ namespace Core.Utilities.Interceptors
                 .GetCustomAttributes<MethodInterceptionBaseAttribute>(true);
             classAttributes.AddRange(methodAttributes);
 
+            //bütün methodlarda file log işlemini yapar (Loglamayı otomatik yapar)
+            //classAttributes.Add(new ExceptionLogAspect(typeof(FileLogger)));
+
             return classAttributes.OrderBy(x => x.Priority).ToArray();
         }
     }

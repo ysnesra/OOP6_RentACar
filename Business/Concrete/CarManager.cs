@@ -2,6 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
@@ -14,6 +17,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -27,6 +31,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             //Hergün saat 22:00 ile 23:00 arası sistem kapalı olsun.Arabalar listelenemesin
@@ -37,8 +42,11 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);    //ICarDal'daki GetAll()'ı çağırır
         }
+        [CacheAspect]
+        [PerformanceAspect(5)] //bu metotun çalışması 5sn yi geçerse uyar
         public IDataResult<Car> GetByCarId(int carId)
         {
+            Thread.Sleep(6000);
             return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId),Messages.CarDetail);
         }
 
@@ -60,6 +68,7 @@ namespace Business.Concrete
 
         [SecuredOperation("car.add, admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             //if (car.CarName.Length <= 2 )
@@ -74,6 +83,7 @@ namespace Business.Concrete
             
         }
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {  
             _carDal.Update(car);
@@ -85,7 +95,21 @@ namespace Business.Concrete
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
-  
+
+        //Transaction yönetimi yapan metot
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            //eger if sorgusunda hata alırsa önceki yaptığı ekleme işleminide geri alacak TransactionAspect ile
+            Add(car);
+            if (car.DailyPrice < 10)
+            {
+                throw new Exception("");
+            }
+            Add(car);
+
+            return null;
+        }
     }
 
 }

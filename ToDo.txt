@@ -113,6 +113,28 @@ Rent a Car Projesini Çok Katmanlý Kurumsal Mimari altyapýsýnda oluþturdum
    *Core-> Extensions-> ServiceCollectionExtensions.cs clasý oluþturuldu.Baðýmlýlýklarý yüklediðimiz "AddDependencyResolvers" metotu oluþturuldu.
    startup.cs'de bu AddDependencyResolvers metotu çaðrýlýr ve parametre olrak CoreModule verilerek yüklenmesi saðlanýr.
 
+-------------------------------------------
+* CACHE
+
+-Micosoft'un kendi mekanizmasýndaki InMemoryCache kullanýldý.
+-Aspect kullanark Cache yapýsý oluþturdum.
+-GetAll(),GetByCarId()... gibi listeleme tek bir arab bilgilerini getirme gibi iþlemlerde her seferinde veritabanýna gitmemek için verileri Cache'den çektim.[CacheAspect] 
+-Ancak Add(),Update(),Delete() iþlemlerinde data bozulduðunda Cache deki verileri silmek için -> [CacheRemoveAspect] ni oluþturdum.
+-CarManager.cs'da test ettim.
+
+-------------------------------------------
+* TRANSACTION
+
+-Uygulamada tutarlýðý korumak için transaction yöntemini uyguladým.
+-ICarService.cs'e "AddTransactionalTest" metotu eklendi.
+[TransactionScopeAspect] Aspecti; AddTransactionalTest metotunun üstüne eklendi
+
+-------------------------------------------
+* PERFORMANCE
+
+-Uygulamada sistemin yavaþlama durumu(performans zafiyeti) varsa sistem bizi uyarsýn istediðimden; Aspect oluþturdum.
+-GetByCarId() metotunun üstüne; [PerforamanceAspect(5)] Aspecti eklendi. 
+
 
 
 
