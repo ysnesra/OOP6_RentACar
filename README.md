@@ -128,8 +128,11 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
 -Uygulamada sistemin yavaşlama durumu(performans zafiyeti) varsa sistem bizi uyarsın istediğimden; Aspect oluşturdum.
 -GetByCarId() metotunun üstüne; [PerforamanceAspect(5)] Aspecti eklendi. 
 
-Cache Yönetimi ![Cache](https://user-images.githubusercontent.com/104023688/229637995-048c7aa6-9b90-44d7-8258-38026c1b8c49.JPG)
-Performance Yönetimi ![Performance](https://user-images.githubusercontent.com/104023688/229638041-d75378e0-7064-4178-9399-b4618cfe0845.JPG)
+CACHE Yönetimi:
+![Cache](https://user-images.githubusercontent.com/104023688/229637995-048c7aa6-9b90-44d7-8258-38026c1b8c49.JPG)
+
+PERFORMANCE Yönetimi:
+![Performance](https://user-images.githubusercontent.com/104023688/229638041-d75378e0-7064-4178-9399-b4618cfe0845.JPG)
 
 
 
