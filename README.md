@@ -51,3 +51,85 @@ Rent a Car Projesini Çok Katmanlı Kurumsal Mimari altyapısında oluşturdum
 
 7-Eğer bir arabaya ait resim yoksa, default bir resim gösterdim. Bu resim toplu arabaların olduğu bir resim. (Tek elemanlı liste) 
   
+  -------------------------------------------
+* JWT
+
+1- UserTablosuna -> PasswordHash,PasswordSalt,Satatus kolonları eklendi
+   OperationClaims ve UserOperationClaims tabloları eklendi
+   Bu tabloların entity classlarını Core da oluştururuz (Genel her projede kullanılabilceği için)
+
+2- appsetting.json dosyasına; Jwt nin configurationını ekledim. Tokenoptions isminde cofigurasyon oluşturdum.
+
+3- Core katmanında ->Utilities ->Security klasörüne ->Encryption,Hashing ve Jwt klasörleri oluşturuldu.İçlerine Helper metotlar oluşturuldu. 
+
+  * HashingHelper metotunda -> Hash oluşturma ve doğrulama operasyonları gerçekleşir.
+
+  * SecurityKeyHelper -> appsetting de oluşturduğumuz securityKey değerini byte[] array formatına çevirmek için CreateSecurityKey metotu oluşturuldu
+  * SigningCredentialsHelper -> webApinin hangi anahtarı hangi şifreleme algoritmasını kullanacağını söylediğimiz metot
+
+  * AccessToken classı -> erişim anahtarı // Token ve Expiration değişkenlerini tanımlandı
+  * ITokenHelper -> CreateToken metotu oluşturuldu (veritabanındaki user ve claimlere göre JWT Token üretecek)
+  * JwtHelper -> Jwt'nin oluşturulduğu class 
+  * TokenOptions -> Configuration ile appsettings.json da okuduğu değerleri atayacağımız değişkenleri tanımladığım class
+
+ 4- Extensions metot tanımladım.Claimler için
+   
+   * ClaimExtensions -> ClaimExtensions da tanımladığımız metotları JwtHelper.cs ında çağırırız
+   * ClaimPrincipalExtensions -> Jwt den gelen claimlerini okumak için .Net deki "ClaimsPrincipal" clasına Claims ve ClaimRoles metotları eklendi
+   * ServiceCollectionExtensions ->
+
+5- Authorization (Yetkilnedirme) Aspectleri, Business katmanına yazıldı
+   BusinessAspect klasörü -> Autofac klasörü -> SecuredOperation.cs clası oluşturuldu
+
+   * SecuredOperation -> Aspect olarak verceğimiz yetkilendirme metotu
+   * ServicTool -> WebApi de oluuşturduğumuz Injectionlar gibi ilişkileri oluşturmamızı sağlar.Aspecti Inject  edebilmek için oluşturdupumuz bir ExtensionsMetottur
+
+6- IUserService'e -> GetByEmail,GetClaims metotları eklendi
+   IAuthService, AuthManager, AuthController eklendi -> Kayıt olma - Login olma operasyonlarını gerçekleştirir
+
+7-  Business -> DependencyResolvers -> Autofac -> AutofacBusinessModule.cs classı içine eklemeler yapıldı. JwtHelper ve AuthManger için dependency bağlantıları yazıldı
+
+8- startup.cs'de sistemde authentication olarak hangi sistemin kullanılacağı belirtildi. JwtBearer Token kullanılır.
+
+   startup.cs'de  "app.UseAuthentication();" middleware'i eklendi. Authorization() den önce olacak şekilde; çünkü önce kimlik doğrulanır sonra yetkilendirme verilir
+
+9- Dependency Resolution'ı Autofac üzerinden yapıyoruz. .net in kendi IoC Injectionın devreye girmesi için;
+   startup.cs'ye 
+      "services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();" ve
+      "serciceTool.Create(services);"  kodları eklendi.
+
+   Ancak bu tanımladığım Injectionı bütün projelerde kullanılabilir hale getirmek için Core'a taşıdım
+   *Core-> Utilities-> IoC-> ICoreModule.cs interfacei oluşturuldu -> Load() metodu tanımlandı(genel bağımlılıkları yükleyecek metotumuz)
+
+   *Core-> DependencyResolvers-> CoreModule.cs clası oluşturuldu.IHttpContextAccessor ınjection kodu buraya yazıldı
+
+   *Core-> Extensions-> ServiceCollectionExtensions.cs clası oluşturuldu.Bağımlılıkları yüklediğimiz "AddDependencyResolvers" metotu oluşturuldu.
+   startup.cs'de bu AddDependencyResolvers metotu çağrılır ve parametre olrak CoreModule verilerek yüklenmesi sağlanır.
+
+-------------------------------------------
+* CACHE
+
+-Micosoft'un kendi mekanizmasındaki InMemoryCache kullanıldı.
+-Aspect kullanark Cache yapısı oluşturdum.
+-GetAll(),GetByCarId()... gibi listeleme tek bir arab bilgilerini getirme gibi işlemlerde her seferinde veritabanına gitmemek için verileri Cache'den çektim.[CacheAspect] 
+-Ancak Add(),Update(),Delete() işlemlerinde data bozulduğunda Cache deki verileri silmek için -> [CacheRemoveAspect] ni oluşturdum.
+-CarManager.cs'da test ettim.
+
+-------------------------------------------
+* TRANSACTION
+
+-Uygulamada tutarlığı korumak için transaction yöntemini uyguladım.
+-ICarService.cs'e "AddTransactionalTest" metotu eklendi.
+[TransactionScopeAspect] Aspecti; AddTransactionalTest metotunun üstüne eklendi
+
+-------------------------------------------
+* PERFORMANCE
+
+-Uygulamada sistemin yavaşlama durumu(performans zafiyeti) varsa sistem bizi uyarsın istediğimden; Aspect oluşturdum.
+-GetByCarId() metotunun üstüne; [PerforamanceAspect(5)] Aspecti eklendi. 
+
+Cache Yönetimi ![Cache](https://user-images.githubusercontent.com/104023688/229637995-048c7aa6-9b90-44d7-8258-38026c1b8c49.JPG)
+Performance Yönetimi ![Performance](https://user-images.githubusercontent.com/104023688/229638041-d75378e0-7064-4178-9399-b4618cfe0845.JPG)
+
+
+
