@@ -1,4 +1,32 @@
 # OOP6_RentACar
+Araç kiralama takibinin yapıldığı n-tier Architecture mimari yaklaşımın kullanıldığı WebApi projesidir. 
+
+Kullanılan Teknolojiler:
+
+ * .NET Core 6.0
+  
+ * Asp.NET for Restful Api
+  
+ * MsSql
+  
+ * Entity FrameWork Core 6.0.13 
+  
+ * AutoFac
+  
+ * FluentValidation
+ 
+Kullanılan Teknikler:
+
+   * n-tier Architecture mimari yaklaşımı
+   
+   * JWT (Json Web Tokens)
+   
+   * AOP Yapısı
+
+   * IoC
+
+   * Microsoft Built In Dependency Resolver
+   
 
 Katmanlı mimariyle oluşturuldu : Entities, DataAccess, Business, Console, Core katmanları
 
